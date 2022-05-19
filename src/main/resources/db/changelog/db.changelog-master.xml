@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="schemaName" value="public"/>
+    <property name="nextValFunction" value="nextVal" dbms="postgresql"/>
+
+    <changeSet id="1652895599136-1" author="nikola">
+        <createSequence sequenceName="planet_seq"/>
+    </changeSet>
+
+    <changeSet id="1652896599136-1" author="nikola">
+        <createSequence sequenceName="satellite_seq"/>
+    </changeSet>
+
+    <changeSet id="1652899550603-1" author="nikola">
+        <createTable tableName="planet">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_planet"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="surface_area" type="BIGINT"/>
+            <column name="mass" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="distance_from_sun" type="BIGINT"/>
+            <column name="average_surface_temperature" type="INT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1652899595462-1" author="nikola">
+        <createTable tableName="satellite">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_satellite"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="surface_area" type="BIGINT"/>
+            <column name="mass" type="BIGINT"/>
+            <column name="natural_satellite" type="BOOLEAN"/>
+            <column name="planet_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="planet_id" baseTableName="satellite"
+                                 constraintName="FK_SATELLITE_ON_PLANET" referencedColumnNames="id"
+                                 referencedTableName="planet"/>
+    </changeSet>
+
+
+</databaseChangeLog>
